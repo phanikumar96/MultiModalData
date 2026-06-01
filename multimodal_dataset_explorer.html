@@ -1,0 +1,194 @@
+
+<style>
+.ds-card { background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 14px 16px; cursor: pointer; transition: border-color .15s; }
+.ds-card:hover { border-color: var(--color-border-secondary); }
+.ds-card.hidden { display: none; }
+.badge { font-size: 11px; padding: 2px 8px; border-radius: var(--border-radius-md); font-weight: 500; display: inline-block; margin-right: 4px; margin-bottom: 6px; white-space: nowrap; }
+.tag-instruct { background: #EEEDFE; color: #3C3489; }
+.tag-caption { background: #E1F5EE; color: #085041; }
+.tag-vqa { background: #E6F1FB; color: #0C447C; }
+.tag-ocr { background: #FAEEDA; color: #633806; }
+.tag-doc { background: #FAECE7; color: #712B13; }
+.tag-pretrain { background: #F1EFE8; color: #444441; }
+.tag-chart { background: #FBEAF0; color: #72243E; }
+.tag-reasoning { background: #EAF3DE; color: #27500A; }
+.filter-btn { font-size: 12px; padding: 5px 12px; border-radius: var(--border-radius-md); border: 0.5px solid var(--color-border-secondary); background: transparent; color: var(--color-text-secondary); cursor: pointer; transition: all .15s; }
+.filter-btn.active { background: var(--color-background-info); color: var(--color-text-info); border-color: var(--color-border-info); }
+.ds-title { font-size: 14px; font-weight: 500; color: var(--color-text-primary); margin: 0 0 3px; }
+.ds-sub { font-size: 12px; color: var(--color-text-secondary); margin: 0 0 8px; line-height: 1.5; }
+.ds-meta { font-size: 11px; color: var(--color-text-tertiary); margin: 0; }
+.ds-footer { display: flex; align-items: center; justify-content: space-between; margin-top: 10px; padding-top: 10px; border-top: 0.5px solid var(--color-border-tertiary); }
+.hf-link { font-size: 11px; color: var(--color-text-info); text-decoration: none; }
+.star-badge { font-size: 11px; background: var(--color-background-warning); color: var(--color-text-warning); padding: 2px 7px; border-radius: var(--border-radius-md); font-weight: 500; }
+.section-label { font-size: 11px; font-weight: 500; color: var(--color-text-secondary); text-transform: uppercase; letter-spacing: .05em; margin: 20px 0 8px; }
+.count-pill { font-size: 12px; color: var(--color-text-secondary); margin-left: auto; }
+</style>
+
+<h2 class="sr-only">Interactive explorer of the best multimodal HuggingFace datasets for SLM fine-tuning</h2>
+
+<div style="padding: 1rem 0 0;">
+
+<div style="display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 4px;">
+  <button class="filter-btn active" onclick="filter('all', this)">All</button>
+  <button class="filter-btn" onclick="filter('instruct', this)">Instruction tuning</button>
+  <button class="filter-btn" onclick="filter('caption', this)">Captioning</button>
+  <button class="filter-btn" onclick="filter('vqa', this)">VQA</button>
+  <button class="filter-btn" onclick="filter('ocr', this)">OCR / text-in-image</button>
+  <button class="filter-btn" onclick="filter('doc', this)">Document</button>
+  <button class="filter-btn" onclick="filter('chart', this)">Charts</button>
+  <button class="filter-btn" onclick="filter('reasoning', this)">Reasoning</button>
+  <button class="filter-btn" onclick="filter('pretrain', this)">Pretraining</button>
+</div>
+<div style="display: flex; align-items: center; margin-bottom: 16px;">
+  <span class="count-pill" id="count-label">12 datasets</span>
+</div>
+
+<div id="ds-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 10px;">
+
+<div class="ds-card" data-tags="instruct caption" onclick="sendPrompt('Show me how to load and use HuggingFaceH4/llava-instruct-mix-vsft for fine-tuning')">
+  <div style="display:flex;justify-content:space-between;align-items:flex-start">
+    <p class="ds-title">LLaVA-Instruct-Mix-VSFT</p>
+    <span class="star-badge">Top pick</span>
+  </div>
+  <p class="ds-sub">HF-reformatted LLaVA instruction mix. Single-image conversations. The official TRL fine-tuning example uses this directly.</p>
+  <div><span class="badge tag-instruct">Instruction tuning</span><span class="badge tag-caption">Captioning</span></div>
+  <div class="ds-footer">
+    <span class="ds-meta">~256K samples · CC-BY-4.0</span>
+    <a class="hf-link" href="https://huggingface.co/datasets/HuggingFaceH4/llava-instruct-mix-vsft">HuggingFaceH4 ↗</a>
+  </div>
+</div>
+
+<div class="ds-card" data-tags="instruct caption vqa" onclick="sendPrompt('How do I fine-tune SmolVLM on LLaVA-Instruct-150K?')">
+  <p class="ds-title">LLaVA-Instruct-150K</p>
+  <p class="ds-sub">Original GPT-4 generated instruction-following data. 150K image-text pairs. The gold standard for visual instruction tuning.</p>
+  <div><span class="badge tag-instruct">Instruction tuning</span><span class="badge tag-vqa">VQA</span></div>
+  <div class="ds-footer">
+    <span class="ds-meta">150K samples · CC-BY-4.0</span>
+    <a class="hf-link" href="https://huggingface.co/datasets/liuhaotian/LLaVA-Instruct-150K">liuhaotian ↗</a>
+  </div>
+</div>
+
+<div class="ds-card" data-tags="instruct caption vqa ocr doc chart reasoning" onclick="sendPrompt('What is The Cauldron dataset and how many subtasks does it have?')">
+  <div style="display:flex;justify-content:space-between;align-items:flex-start">
+    <p class="ds-title">The Cauldron</p>
+    <span class="star-badge">All-in-one</span>
+  </div>
+  <p class="ds-sub">HuggingFaceM4's massive mixture of 50+ multimodal datasets. Used to train Idefics2. Best single source for diverse fine-tuning.</p>
+  <div><span class="badge tag-instruct">Instruction tuning</span><span class="badge tag-vqa">VQA</span><span class="badge tag-ocr">OCR</span><span class="badge tag-chart">Charts</span></div>
+  <div class="ds-footer">
+    <span class="ds-meta">~1M+ samples · CC-BY-4.0</span>
+    <a class="hf-link" href="https://huggingface.co/datasets/HuggingFaceM4/the_cauldron">HuggingFaceM4 ↗</a>
+  </div>
+</div>
+
+<div class="ds-card" data-tags="caption" onclick="sendPrompt('How do I load COCO captions from HuggingFace for VLM fine-tuning?')">
+  <p class="ds-title">COCO Captions (HuggingFaceM4)</p>
+  <p class="ds-sub">330K images, 5 human captions each. Foundational image captioning benchmark. Karpathy splits included.</p>
+  <div><span class="badge tag-caption">Captioning</span></div>
+  <div class="ds-footer">
+    <span class="ds-meta">413K train samples · CC-BY-4.0</span>
+    <a class="hf-link" href="https://huggingface.co/datasets/HuggingFaceM4/COCO">HuggingFaceM4 ↗</a>
+  </div>
+</div>
+
+<div class="ds-card" data-tags="vqa caption" onclick="sendPrompt('What is VQAv2 and how does it differ from COCO Captions?')">
+  <p class="ds-title">VQAv2</p>
+  <p class="ds-sub">1.1M+ QA pairs on COCO images. Balanced to reduce language bias. Standard benchmark for general-purpose VQA evaluation.</p>
+  <div><span class="badge tag-vqa">VQA</span><span class="badge tag-caption">Captioning</span></div>
+  <div class="ds-footer">
+    <span class="ds-meta">~658K train QA pairs · CC-BY-4.0</span>
+    <a class="hf-link" href="https://huggingface.co/datasets/HuggingFaceM4/VQAv2">HuggingFaceM4 ↗</a>
+  </div>
+</div>
+
+<div class="ds-card" data-tags="doc ocr" onclick="sendPrompt('Tell me about the DocVQA dataset and when to use it for fine-tuning')">
+  <p class="ds-title">DocVQA</p>
+  <p class="ds-sub">12,767 document images with 50K+ QA pairs. Scanned documents, forms, tables. Ideal for document understanding tasks.</p>
+  <div><span class="badge tag-doc">Document</span><span class="badge tag-ocr">OCR</span></div>
+  <div class="ds-footer">
+    <span class="ds-meta">~39K train samples · Apache-2.0</span>
+    <a class="hf-link" href="https://huggingface.co/datasets/lmms-lab/DocVQA">lmms-lab ↗</a>
+  </div>
+</div>
+
+<div class="ds-card" data-tags="chart reasoning vqa" onclick="sendPrompt('How is ChartQA structured and what types of charts does it cover?')">
+  <div style="display:flex;justify-content:space-between;align-items:flex-start">
+    <p class="ds-title">ChartQA</p>
+    <span class="star-badge">Top pick</span>
+  </div>
+  <p class="ds-sub">4,804 charts with 32K+ QA pairs. Human + machine-generated questions. Qwen2-VL and LLaVA-NeXT both train on this.</p>
+  <div><span class="badge tag-chart">Charts</span><span class="badge tag-reasoning">Reasoning</span><span class="badge tag-vqa">VQA</span></div>
+  <div class="ds-footer">
+    <span class="ds-meta">~28K train samples · CC-BY-4.0</span>
+    <a class="hf-link" href="https://huggingface.co/datasets/HuggingFaceM4/ChartQA">HuggingFaceM4 ↗</a>
+  </div>
+</div>
+
+<div class="ds-card" data-tags="ocr" onclick="sendPrompt('What is TextCaps and when should I use it for fine-tuning?')">
+  <p class="ds-title">TextCaps</p>
+  <p class="ds-sub">28K images requiring OCR + scene understanding to caption. Tests reading text in natural images — signs, menus, labels.</p>
+  <div><span class="badge tag-ocr">OCR</span><span class="badge tag-caption">Captioning</span></div>
+  <div class="ds-footer">
+    <span class="ds-meta">~109K train samples · CC-BY-4.0</span>
+    <a class="hf-link" href="https://huggingface.co/datasets/HuggingFaceM4/TextCaps">HuggingFaceM4 ↗</a>
+  </div>
+</div>
+
+<div class="ds-card" data-tags="ocr vqa" onclick="sendPrompt('What is TextVQA and how does it relate to TextCaps?')">
+  <p class="ds-title">TextVQA</p>
+  <p class="ds-sub">QA on natural images with text. Requires reading + reasoning about scene text. Shares image pool with TextCaps for multi-task learning.</p>
+  <div><span class="badge tag-ocr">OCR</span><span class="badge tag-vqa">VQA</span></div>
+  <div class="ds-footer">
+    <span class="ds-meta">~34K train samples · CC-BY-4.0</span>
+    <a class="hf-link" href="https://huggingface.co/datasets/lmms-lab/textvqa">lmms-lab ↗</a>
+  </div>
+</div>
+
+<div class="ds-card" data-tags="reasoning vqa" onclick="sendPrompt('What is AI2D dataset and why is it good for diagram reasoning fine-tuning?')">
+  <p class="ds-title">AI2D (Science Diagrams)</p>
+  <p class="ds-sub">4,903 science diagram images with 15K+ QA pairs. Annotated diagrams with arrows, labels. Used by LLaVA-NeXT for diagram reasoning.</p>
+  <div><span class="badge tag-reasoning">Reasoning</span><span class="badge tag-vqa">VQA</span></div>
+  <div class="ds-footer">
+    <span class="ds-meta">~12K train samples · CC-BY-4.0</span>
+    <a class="hf-link" href="https://huggingface.co/datasets/lmms-lab/ai2d">lmms-lab ↗</a>
+  </div>
+</div>
+
+<div class="ds-card" data-tags="instruct vqa caption ocr doc chart reasoning" onclick="sendPrompt('What is the LLaVA-NeXT-Data mixture and how should I use it for SLM fine-tuning?')">
+  <p class="ds-title">LLaVA-NeXT-Data</p>
+  <p class="ds-sub">779K rows mixing ShareGPT4V, DocVQA, ChartQA, AI2D, DVQA and more. The full training mixture for LLaVA-NeXT models.</p>
+  <div><span class="badge tag-instruct">Instruction tuning</span><span class="badge tag-doc">Document</span><span class="badge tag-chart">Charts</span></div>
+  <div class="ds-footer">
+    <span class="ds-meta">~779K samples · Research only</span>
+    <a class="hf-link" href="https://huggingface.co/datasets/lmms-lab/LLaVA-NeXT-Data">lmms-lab ↗</a>
+  </div>
+</div>
+
+<div class="ds-card" data-tags="pretrain" onclick="sendPrompt('How do I use MMC4 for multimodal pretraining or continual training?')">
+  <p class="ds-title">MMC4 (Multimodal C4)</p>
+  <p class="ds-sub">Billion-scale interleaved image+text from CommonCrawl. Images assigned to sentences via CLIP similarity. Flamingo-style pretraining.</p>
+  <div><span class="badge tag-pretrain">Pretraining</span></div>
+  <div class="ds-footer">
+    <span class="ds-meta">~101M docs · Common Crawl ToS</span>
+    <a class="hf-link" href="https://huggingface.co/datasets/jmhessel/mmc4-ff">jmhessel ↗</a>
+  </div>
+</div>
+
+</div>
+</div>
+
+<script>
+function filter(tag, btn) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  const cards = document.querySelectorAll('.ds-card');
+  let visible = 0;
+  cards.forEach(c => {
+    const tags = c.dataset.tags || '';
+    const show = tag === 'all' || tags.split(' ').includes(tag);
+    c.classList.toggle('hidden', !show);
+    if (show) visible++;
+  });
+  document.getElementById('count-label').textContent = visible + ' dataset' + (visible !== 1 ? 's' : '');
+}
+</script>
